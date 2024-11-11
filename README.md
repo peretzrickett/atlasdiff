@@ -1,6 +1,3 @@
-Here’s an initial `README.md` for your new `atlasdiff` repository, focused on demonstrating the `atlas schema diff` command with various scenarios. This will include steps to set up the environment, examples of different diff scenarios, and a final interactive diff visualization.
-
-```markdown
 # AtlasDiff
 
 This repository provides examples and demonstrations of using the `atlas schema diff` command with PostgreSQL. The goal is to explore various ways to compare database schemas, culminating in a visual diff using the `-w` flag.
@@ -92,10 +89,3 @@ To run the script:
 ```bash
 ./setup_schemas.sh
 ```
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
-
-This README sets up the context for the `atlasdiff` repository and guides users through using `atlas schema diff` in different scenarios. Let me know if you'd like further details on any part or additional examples!
