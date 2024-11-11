@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  pg_test:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: atlasuser
+      POSTGRES_PASSWORD: atlaspass
+      POSTGRES_DB: atlasdb_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_test_data:/var/lib/postgresql/data
+      - ./init_db_test.sql:/docker-entrypoint-initdb.d/init_db_test.sql
+
+  pg_dev:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: atlasuser
+      POSTGRES_PASSWORD: atlaspass
+      POSTGRES_DB: atlasdb_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_dev_data:/var/lib/postgresql/data
+      - ./init_db_dev.sql:/docker-entrypoint-initdb.d/init_db_dev.sql
+
+volumes:
+  pg_test_data:
+  pg_dev_data:
