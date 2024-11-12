@@ -231,6 +231,6 @@ view "department_overview" {
     SELECT d.department_id, d.name AS department_name, COUNT(p.project_id) AS project_count
     FROM company.departments d
     LEFT JOIN company.projects p ON d.department_id = p.department_id
-    GROUP BY d.department_id;
+    GROUP BY d.department_id, d.name;
   SQL
 }
