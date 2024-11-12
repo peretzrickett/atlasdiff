@@ -10,7 +10,7 @@ This repository demonstrates a developer workflow for managing schema changes ac
 ### Prerequisites
 
 1. **Docker**: Ensure Docker is installed and running.
-2. **Atlas CLI**: Install from [here](https://atlasgo.io/cli) to use the `schema diff` and `schema apply` commands.
+2. **Atlas CLI**: Install from [here](https://atlasgo.io/getting-started/#installation) to use the `schema diff` and `schema apply` commands.
 
 ### Clone the Repository
 
@@ -76,7 +76,7 @@ The output will show differences between `dev` and `test`, such as the presence 
 After identifying the schema differences, apply the changes from `dev` to `test` to synchronize the environments.
 
 ```bash
-atlas schema apply --from "postgres://atlasuser:atlaspass@localhost:5433/atlasdb_dev?sslmode=disable" --to "postgres://atlasuser:atlaspass@localhost:5432/atlasdb_test?sslmode=disable"
+atlas schema apply --url "postgres://atlasuser:atlaspass@localhost:5432/atlasdb_test?sslmode=disable" --to "postgres://atlasuser:atlaspass@localhost:5433/atlasdb_dev?sslmode=disable"
 ```
 
 This command updates `test` to match the `dev` schema, applying the additional table and view that were previously only present in `dev`.
@@ -88,7 +88,7 @@ This command updates `test` to match the `dev` schema, applying the additional t
 Next, we introduce additional schema changes in the local HCL file (`next_version.hcl`). Before applying these changes to `dev`, we check for any differences between the current state of `dev` and the schema defined in `next_version.hcl`.
 
 ```bash
-atlas schema diff --from "file://./next_version.hcl" --to "postgres://atlasuser:atlaspass@localhost:5433/atlasdb_dev?sslmode=disable"
+atlas schema diff --from "file://next_version.pg.hcl" --to "postgres://atlasuser:atlaspass@localhost:5433/atlasdb_dev?sslmode=disable" --dev-url "docker://postgres/15/dev?search_path=public"
 ```
 
 This diff allows us to confirm that the new tables and views defined in `next_version.hcl` are not yet present in `dev`.
