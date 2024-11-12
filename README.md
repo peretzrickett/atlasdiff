@@ -22,7 +22,7 @@ cd atlasdiff
 ### Database Setup
 
 This setup involves two PostgreSQL databases running in Docker:
-- **Test Database**: Represents a stable environment with the initial base schema with which we started in our previous `atlas shema inspect` module.
+- **Test Database**: Represents a stable environment with the initial base schema with which we started in our previous `atlas schema inspect` module.
 - **Dev Database**: Represents a development environment with an incremental schema change.
 
 ### Step 1: Start PostgreSQL Containers with Docker
