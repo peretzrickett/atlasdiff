@@ -93,8 +93,17 @@ table "projects" {
     type = decimal
     null = true
   }
+  column "department_id" {
+    type = int
+    null = true
+  }
   primary_key {
     columns = [column.project_id]
+  }
+  foreign_key "department_id" {
+    columns = [column.department_id]
+    ref_columns = [table.departments.column.department_id]
+    on_delete = "CASCADE"
   }
 }
 
@@ -166,12 +175,32 @@ table "tasks" {
 
 view "employee_project_summary" {
   schema = schema.company
+  column "employee_id" {
+    null = true
+    type = integer
+  }
+  column "first_name" {
+    null = true
+    type = character_varying(50)
+  }
+  column "last_name" {
+    null = true
+    type = character_varying(50)
+  }
+  column "project_name" {
+    null = true
+    type = character_varying(100)
+  }
   as         = <<-SQL
-    SELECT e.employee_id, e.first_name, e.last_name, p.name AS project_name
-    FROM company.employees e
-    JOIN company.employee_projects ep ON e.employee_id = ep.employee_id
-    JOIN company.projects p ON ep.project_id = p.project_id;
+  SELECT e.employee_id,
+      e.first_name,
+      e.last_name,
+      p.name AS project_name
+     FROM ((company.employees e
+       JOIN company.employee_projects ep ON ((e.employee_id = ep.employee_id)))
+       JOIN company.projects p ON ((ep.project_id = p.project_id)));
   SQL
+  depends_on = [table.employee_projects, table.employees, table.projects]
 }
 
 # New changes for the next iteration: clients and audit_logs tables, department_overview view
@@ -227,6 +256,18 @@ table "audit_logs" {
 
 view "department_overview" {
   schema = schema.company
+  column "department_id" {
+    null = false
+    type = integer
+  }
+  column "department_name" {
+    null = false
+    type = character_varying(100)
+  }
+  column "project_count" {
+    null = false
+    type = integer
+  }
   as = <<-SQL
     SELECT d.department_id, d.name AS department_name, COUNT(p.project_id) AS project_count
     FROM company.departments d
